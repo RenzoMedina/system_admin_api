@@ -16,3 +16,4 @@ class UserControllerTest extends TestCase{
         $this->assertEquals("Hola", $retorno);
     }
 }
+

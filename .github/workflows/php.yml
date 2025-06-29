@@ -46,7 +46,7 @@ jobs:
 
     #Test
     - name: Run test suite
-      run: composer run-script test
+      run: composer run-script tests
     
     #obteniendo el commit
     - name: Obtener mensaje del commit

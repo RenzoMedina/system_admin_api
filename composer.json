@@ -7,7 +7,8 @@
         "psr-4": {
             "App\\": "app/",
             "Routes\\": "routes/"
-        }
+        },
+        "files": ["functions.php"]
     },
     "autoload-dev": {
         "psr-4": {

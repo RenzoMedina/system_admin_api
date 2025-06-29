@@ -13,7 +13,7 @@ class UserControllerTest extends TestCase{
 
         $retorno = $user->index();
 
-        $this->assertEquals("Hola", $retorno);
+        $this->assertEquals("Hola soy el index", $retorno);
     }
 }
 

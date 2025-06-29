@@ -5,6 +5,6 @@ namespace App\Controllers;
 class UserController{
 
     public function index(){
-        return "Hola";
+        return "Hola soy el index";
     }
 }

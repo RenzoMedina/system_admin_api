@@ -1,0 +1,64 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: 
+      - main
+      - dev/**
+  pull_request:
+    branches: main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    #Php
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: mbstring, intl
+
+    #Composer
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    #Instalacion dependencias
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
+
+    # - name: Run test suite
+    #   run: composer run-script test
+
+    #Azure DevOps
+    - name: Actualizar Azure Board
+      env:
+        AZDO_ORG: mi-empresa
+        AZDO_PROJECT: mi-proyecto
+        AZDO_PAT: ${{ secrets.AZDO_PAT }}
+        WORK_ITEM_ID: 456
+      run: |
+        curl --request PATCH \
+          --url https://dev.azure.com/$AZDO_ORG/$AZDO_PROJECT/_apis/wit/workitems/$WORK_ITEM_ID?api-version=6.0 \
+          --header "Content-Type: application/json" \
+          --user :$AZDO_PAT \
+          --data '{"fields": {"System.State": "Done"}}'

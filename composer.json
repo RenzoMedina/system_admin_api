@@ -10,6 +10,10 @@
             "Tests\\":"test/"
         }
     },
+    "scripts": {
+        "tests": "vendor/bin/phpunit tests"
+    }
+    ,
     "authors": [
         {
             "name": "RenzoMedina",

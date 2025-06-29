@@ -6,7 +6,11 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Routes\\": "routes/",
+            "Routes\\": "routes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Tests\\":"test/"
         }
     },

@@ -1,12 +1,26 @@
 <?php 
 
 use App\Controllers\UserController;
+use App\Middleware\AuthMiddleware;
 
 Flight::group("/api", function(){
-    //api back v1
+    /**
+     * ? group route v1
+     */
     Flight::group("/v1/user", function(){
-       Flight::route("GET /", [UserController::class, 'index']);
+       Flight::route("GET /",[UserController::class, 'index']);
        Flight::route("GET /@id", [UserController::class,'show']);
     });
+},[new AuthMiddleware()]);
+
+/**
+ * ? route not found or 404
+ */
+Flight::map('notFound', function(){
+    Flight::json([
+        "status"=>404,
+        "message"=>"Not Found"
+    ]);
 });
+
 Flight::start();

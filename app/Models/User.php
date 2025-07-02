@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Core\Model;
 use Flight;
 
-class User{
+class User extends Model{
 
     public static function login(){
         $user = Flight::request()->data->user;
@@ -17,7 +18,9 @@ class User{
         return getToken($user);
     }
     public function getAll(){}
-    public function getId(){}
+    public function getId($id){
+        return $this->db->get('users','*',['id'=>$id]);
+    }
     public function create(){}
     public function update(){}
     public function delete(){}

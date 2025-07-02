@@ -15,7 +15,7 @@ class User extends Model{
                 "error"=>"Invalid username or password"
             ],401);
         }
-        return getToken($user);
+        return getToken($user, 1);
     }
     public function getAll(){}
     public function getId($id){

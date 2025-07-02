@@ -11,3 +11,7 @@ function getToken($key){
     $jwt = JWT::encode($payload, $key, 'HS256');
     return $jwt;
 }
+
+function validatedToken($token){
+
+}

@@ -2,11 +2,11 @@
 
 use Firebase\JWT\JWT;
 
-function getToken($key){
+function getToken($key, $data){
     $now = strtotime("now");
     $payload = [
         'exp'=>$now + 3600,
-        'data'=> '1'
+        'data'=> $data
     ];
     $jwt = JWT::encode($payload, $key, 'HS256');
     return $jwt;

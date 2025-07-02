@@ -10,6 +10,7 @@ Flight::group("/api", function(){
     Flight::group("/v1/user", function(){
        Flight::route("GET /",[UserController::class, 'index']);
        Flight::route("GET /@id", [UserController::class,'show']);
+       
     });
 },[new AuthMiddleware()]);
 
@@ -22,5 +23,7 @@ Flight::map('notFound', function(){
         "message"=>"Not Found"
     ]);
 });
+
+Flight::route("POST /login", [UserController::class,'login']);
 
 Flight::start();

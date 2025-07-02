@@ -2,18 +2,16 @@
 
 namespace App\Controllers;
 
+use App\Models\User;
 use Flight;
 
 class UserController{
 
-    public function index(){
-        $token = getToken();
-       Flight::json([
-            "status"=>200,
-            "message"=>"route index",
-            "token"=>$token
-        ]);
+    protected $user;
+    public function __construct(){
+        $this->user = new User();
     }
+    public function index(){}
 
     public function show($id){
         Flight::json([
@@ -23,8 +21,15 @@ class UserController{
         ]);
     }
 
-    public function login(){}
-    public function store(){}
+    public function login(){
+        $token = $this->user::login();
+        Flight::json([
+            "token"=>$token
+        ]);
+    }
+    public function store(){
+        
+    }
     public function update(){}
 
 }

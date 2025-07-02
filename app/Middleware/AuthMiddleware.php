@@ -7,8 +7,9 @@ use Flight;
 class AuthMiddleware{
 
     public function before($params){
+        $auth = Flight::request()->headers();
         Flight::json([
-            "message"=>"Logica en before"
+            "auth"=>$auth
         ]);
     }
 }

@@ -2,9 +2,8 @@
 
 use Firebase\JWT\JWT;
 
-function getToken(){
+function getToken($key){
     $now = strtotime("now");
-    $key = $_ENV['TOKEN'];
     $payload = [
         'exp'=>$now + 3600,
         'data'=> '1'

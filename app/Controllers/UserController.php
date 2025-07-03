@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use Exception;
 use Flight;
 
 class UserController{
@@ -11,7 +12,12 @@ class UserController{
     public function __construct(){
         $this->user = new User();
     }
-    public function index(){}
+    public function index(){
+        $data = (new User())->getAll();
+        Flight::json([
+            "data"=>$data
+        ]);
+    }
 
     public function show($id){
         Flight::json([
@@ -22,13 +28,38 @@ class UserController{
     }
 
     public function login(){
-        $token = $this->user::login();
+        $user = Flight::request()->data->name;
+        $field = Flight::request()->data;
+        $token = $this->user->loginUser($user, $field);
         Flight::json([
-            "token"=>$token
+            "token"=>$token,
         ]);
     }
     public function store(){
-        
+
+        try {
+        $data = Flight::request()->data;
+        $field_data = $data->getData();   
+        $hash_pass = password_hash($data->password, PASSWORD_DEFAULT);
+        $data->password = $hash_pass;
+
+        if (empty($field_data)){
+            Flight::jsonHalt([
+            "error"=>"Field data is empty"
+            ],401);
+        }
+
+        (new User())->create($data);
+        Flight::json([
+            "status"=>201,
+            "data"=>$data
+            ]);
+        } catch (Exception $e) {
+            Flight::jsonHalt([
+            "error"=>"Unexpected error",
+            "details"=>$e->getMessage()
+            ],500);
+        }
     }
     public function update(){}
 

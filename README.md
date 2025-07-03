@@ -1,2 +1,2 @@
 # Sistema administrable - API
-Api backend con php, composer, flightphp, phpunit
+Api backend con php, composer, flightphp, phpunit, Medoo and JWT

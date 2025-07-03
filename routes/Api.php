@@ -2,27 +2,34 @@
 
 use App\Controllers\RoleController;
 use App\Controllers\UserController;
-use App\Middleware\AuthMiddleware;
+use App\Middlewares\AuthMiddleware;
+use App\Middlewares\TokenMiddleware;
 
 Flight::group("/api", function(){
     /**
-     * ? group route v1
+     * ? group route v1 
+     * !With AuthMiddleware is only create and update data
+     * *With TokenMiddleware is all route of read
      */
     Flight::group("/v1", function(){
-      Flight::group("/user", function(){
-        Flight::route("GET /",[UserController::class, 'index']);
-        Flight::route("GET /@id", [UserController::class,'show']);
-      });
+        Flight::group("/user", function(){
+            Flight::route("GET /",[UserController::class, 'index'])->addMiddleware([new TokenMiddleware()]);
+            Flight::route("GET /@id", [UserController::class,'show'])->addMiddleware([new TokenMiddleware()]);
+            Flight::route('POST /',[UserController::class,'store'])->addMiddleware([new AuthMiddleware()]);
+        });
+        
       /**
-       * ? group route of resource only 'index','store','update','destroy' with middleware
+       * ? group route of resource only 'store','update','destroy' with middleware
+       * !With AuthMiddleware is only create and update data
+       * *With TokenMiddleware is all route of read
        */
-      Flight::resource('/role',RoleController::class,
-      [
-            'only'=>['index','store','update','destroy']
+        Flight::resource("/role",RoleController::class,[
+            'only'=>['store','update','destroy'],
+            'middleware'=>[new AuthMiddleware()]
         ]);
+        Flight::route("GET /role",[RoleController::class,'index'])->addMiddleware([new TokenMiddleware()]);
     });
-
-},[new AuthMiddleware()]);
+});
 
 /**
  * ? route not found or 404

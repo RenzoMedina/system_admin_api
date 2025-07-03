@@ -2,18 +2,15 @@
 
 namespace Tests\Unit;
 
-use App\Controllers\UserController;
+use App\Models\User;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class UserControllerTest extends TestCase{
     #[Test]
-    public function returnMethodIndex(){
-        //$user = new UserController();
-
-        //$retorno = $user->index();
-
-        $this->assertEquals("hola","hola");
+    public function returnInstanceUser(){
+        $user = new User();
+        $this->assertInstanceOf(User::class, $user);
     }
 }
 

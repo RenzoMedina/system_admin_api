@@ -24,7 +24,7 @@ class User extends Model{
         return $this->db->get('table_users','*',['id'=>$id]);
     }
     public function create($data){
-        return $this->db->insert('table_users',[
+        $this->db->insert('table_users',[
             'name'=>$data->name,
             'last_name'=>$data->last_name,
             'email'=>$data->email,

@@ -17,11 +17,21 @@ class User extends Model{
         }
         return getToken($user, 1);
     }
-    public function getAll(){}
-    public function getId($id){
-        return $this->db->get('users','*',['id'=>$id]);
+    public function getAll(){
+        return $this->db->select('table_users','*');
     }
-    public function create(){}
+    public function getId($id){
+        return $this->db->get('table_users','*',['id'=>$id]);
+    }
+    public function create($data){
+        return $this->db->insert('table_users',[
+            'name'=>$data->name,
+            'last_name'=>$data->last_name,
+            'email'=>$data->email,
+            'password'=>$data->password,
+            'id_rol'=>$data->id_rol
+        ]);
+    }
     public function update(){}
     public function delete(){}
 

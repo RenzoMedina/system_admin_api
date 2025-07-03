@@ -9,6 +9,8 @@ class Role extends Model{
        $this->db->insert('table_roles',[
             'type_role'=>$data,
         ]);
+        $roleId = $this->db->id();
+        return $roleId;
     }
 
     public function getAll(){

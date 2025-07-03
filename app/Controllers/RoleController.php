@@ -15,10 +15,11 @@ class RoleController{
     }
     public static function store(){
         $type_role = Flight::request()->data->type_role;
+        $data = (new Role())->create($type_role);
         Flight::json([
                 "status"=>200,
                 "message"=>"Role created successfully!!",
-                "data"=>(new Role())->create($type_role)
+                "id"=> $data
             ]);
         
     }

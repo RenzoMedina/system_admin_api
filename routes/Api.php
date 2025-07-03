@@ -12,6 +12,7 @@ Flight::group("/api", function(){
       Flight::group("/user", function(){
         Flight::route("GET /",[UserController::class, 'index']);
         Flight::route("GET /@id", [UserController::class,'show']);
+        Flight::route('POST /',[UserController::class,'store']);
       });
       /**
        * ? group route of resource only 'index','store','update','destroy' with middleware

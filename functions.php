@@ -4,6 +4,12 @@ use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
+/**
+ * Summary of getToken with JWT
+ * @param mixed $data
+ * @param mixed $admin
+ * @return string
+ */
 function getToken($data,$admin){
     $now = strtotime("now");
     $key = $_ENV['TOKEN'];
@@ -16,6 +22,12 @@ function getToken($data,$admin){
     return $jwt;
 }
 
+/**
+ * Summary of validatedToken 
+ * @param mixed $token
+ * @param mixed $key
+ * later validated return token
+ */
 function validatedToken($token,$key){
     try {
         $decodeJWT = JWT::decode($token, new Key($key, 'HS256'));

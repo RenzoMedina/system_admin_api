@@ -7,34 +7,40 @@ use Exception;
 use Flight;
 
 class User extends Model{
-    public function login($name, $field){
-        //$user = Flight::request()->data->user;
-        //$password = Flight::request()->data->password;
-        /*if(!$user == "Renzo" && $password == "1234"){
-            Flight::jsonHalt([
-                "error"=>"Invalid username or password"
-            ],401);
-        }*/
-
+    public function loginUser($name, $field){
         try {
-            $data =  $this->db->select('table_users',[
-                "id",
-                "name",
-                "password"
-            ],[
-                "name"=>$name
-            ]);
+            $data =  $this->db->get('table_users',
+            [
+                '[><]table_roles' => ['id_rol' => 'id']
+            ],
+            [
+                'table_users.id',
+                'table_users.name',
+                'table_users.password',
+                'table_roles.type_role'
+            ],
+            [
+                'table_users.name' => $name
+            ]
+
+            );
             
-            $id = $data[0]['id'];
-            $user = $data[0]['name'];
-            $password = $data[0]['password']; 
+            $id = $data['id'];
+            $id_rol = $data['type_role'];
+            $user = $data['name'];
+            $password = $data['password']; 
             
-            if ($user == $field->name && password_verify($field->password,$password)){
-                return getToken($field->name, $id);
+            if (password_verify($field->password,$password) && $user == $field->name){
+                return getToken( $id,$id_rol);
+            }
+            else{
+                Flight::jsonHalt([
+                    "error"=>"Invalid username or password"
+                ],401);
             }
         } catch (Exception $e) {
             Flight::jsonHalt([
-                    "error"=>"Invalid username or password",
+                    "error"=>"Invalid login",
                     "details"=>$e->getMessage()
                 ],401);
             }

@@ -30,12 +30,10 @@ class UserController{
     public function login(){
         $user = Flight::request()->data->name;
         $field = Flight::request()->data;
-        $token = $this->user->login($user, $field);
+        $token = $this->user->loginUser($user, $field);
         Flight::json([
             "token"=>$token,
-            //"validate"=> validatedToken($token,$user)
         ]);
-       
     }
     public function store(){
 

@@ -1,12 +1,15 @@
 <?php 
 
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-function getToken($key, $data){
+function getToken($data,$admin){
     $now = strtotime("now");
+    $key = $_ENV['TOKEN'];
     $payload = [
         'exp'=>$now + 3600,
+        'admin'=>$admin,
         'data'=> $data
     ];
     $jwt = JWT::encode($payload, $key, 'HS256');
@@ -14,6 +17,18 @@ function getToken($key, $data){
 }
 
 function validatedToken($token,$key){
-    $decodeJWT = JWT::decode($token, new Key($key, 'HS256'));
-    return $decodeJWT;
+    try {
+        $decodeJWT = JWT::decode($token, new Key($key, 'HS256'));
+        return $decodeJWT;
+    } catch (ExpiredException $e) {
+        Flight::jsonHalt([
+            "error"=>"Expired token",
+            "details"=>$e->getMessage()
+        ],401);
+    }catch(Exception $e) {
+        Flight::jsonHalt([
+            "error"=>"Invalid token",
+            "details"=>$e->getMessage()
+        ],401);
+    }
 }

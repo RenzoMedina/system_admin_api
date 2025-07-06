@@ -1,5 +1,6 @@
 <?php 
 
+use App\Controllers\PatientController;
 use App\Controllers\RoleController;
 use App\Controllers\UserController;
 use App\Middlewares\AuthMiddleware;
@@ -28,6 +29,13 @@ Flight::group("/api", function(){
             'middleware'=>[new AuthMiddleware()]
         ]);
         Flight::route("GET /role",[RoleController::class,'index'])->addMiddleware([new TokenMiddleware()]);
+        
+        /**
+         * ?group route fo resource 
+         */
+        Flight::resource("/patient", PatientController::class,[
+            'middleware'=>[new TokenMiddleware()]
+        ]);
     });
 });
 

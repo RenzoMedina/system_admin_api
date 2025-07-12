@@ -24,17 +24,17 @@ Modular API for administrative resource management, developed in PHP with focus 
 
 ## 📁 Structure
 
-```mermaid
+```plaintext
 system_admin_api/
 ├─── app/
 ├─── core/
 ├─── routes/
 ├─── test/
-│ ├─── index.php
-│ ├─── .env
-│ ├─── .htaccess
-│ ├─── Dockerfile
-│ └─── ...
+│   ├─── index.php
+│   ├─── .env
+│   ├─── .htaccess
+│   ├─── Dockerfile
+│   └─── ...
 └── README.md
 ```
 

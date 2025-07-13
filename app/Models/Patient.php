@@ -35,5 +35,37 @@ class Patient extends Model{
         }
     }
 
+    public function getById(int $id){
+        try {
+            return $this->db->get($this->table,'*',[
+            "id"=>$id
+            ]);
+        } catch (Exception $e) {
+            Flight::jsonHalt([
+                "error"=>$e->getMessage()
+            ],403);
+        }
+    }
 
+    public function update(int $id, $data){
+        try {
+            $rowsAffected = $this->db->update($this->table,[
+                "rut"=>$data->rut,
+                "name"=>$data->name,
+                "last_name"=>$data->last_name,
+                "age"=>$data->age,
+                "weigth"=>$data->weigth,
+                "size"=>$data->size,
+                "status"=>$data->status,
+            ],[
+                "id"=>$id
+            ]);
+            $rowsOk = $rowsAffected->rowCount();
+            return $rowsOk > 0;
+        } catch (Exception $e) {
+             Flight::jsonHalt([
+                "error"=>$e->getMessage()
+            ],403);
+        }
+    }
 }

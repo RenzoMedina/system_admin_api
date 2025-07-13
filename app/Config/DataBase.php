@@ -13,8 +13,9 @@ try {
         'host'=>$_ENV['DBHOST'],
         'database' => $_ENV['DBNAME'],
         'username' => $_ENV['DBUSER'],
-        'password' => $_ENV['DBPASS']
-    ]);
+        'password' => $_ENV['DBPASS'],
+        'error'=>\PDO::ERRMODE_EXCEPTION
+        ]);
     //set Flight db to Medoo
     Flight::set('db',$database);
 

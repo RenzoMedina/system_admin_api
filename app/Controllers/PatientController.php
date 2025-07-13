@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Patient;
 use Flight;
+use function PHPUnit\Framework\isJson;
 
 class PatientController{
     
@@ -13,7 +14,14 @@ class PatientController{
             "data"=>(new Patient())->getAll()
         ]);
     }
-    public static function show($id){}
+    public static function show($id){
+        $data = (new Patient())->getById($id);
+        Flight::json([
+            "status"=>200,
+            "message"=>"Data loaded by {$id}",
+            "data"=>$data
+        ]);
+    }
 
     public static function store(){
         $data = Flight::request()->data;
@@ -24,7 +32,21 @@ class PatientController{
             "data"=>$data
         ]);
     }
-    public static function update($id){}
+    public static function update($id){
+        $data = Flight::request()->data;
+        $success = (new Patient())->update($id,$data);
+        if ($success){
+            Flight::json([
+                "status"=>200,
+                "message"=>"Data updated by {$id}",
+                "data"=>$data
+            ]);
+        }else{
+            Flight::jsonHalt([
+                "error"=>"Data update has not been carried out validate id"
+            ], 409);
+        } 
+    }
     public static function destroy($di){
 
     }

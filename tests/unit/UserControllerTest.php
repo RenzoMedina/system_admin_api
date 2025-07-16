@@ -39,5 +39,29 @@ class UserControllerTest extends TestCase{
         $request->getBody();
         $this->assertEquals(200, $request->getStatusCode());
     }
+
+    #[Test]
+    #[TestDox('Get User')]
+    public function testGetUser(){ 
+        $mock = new MockHandler([
+            new Response(200,[], json_encode(['status '=> 200]))
+        ]);
+        $clientUser = new Client(['handler'=>HandlerStack::create($mock)]);
+        $request = $clientUser->get("/user",[
+            "data"=> [
+                "id"=> 1,
+                "name"=>"Renzo",
+                "last_name"=> "Medina",
+                "email"=> "admin@sistemaadminsitrable.cl",
+                "password"=> "12343",
+                "id_rol"=>1,
+                "status"=> "active",
+                "created_at"=>"2025-07-06 19:50:33",
+                "updated_at"=>"2025-07-06 19:50:33"
+                ]
+        ]);
+        $data = json_encode($request->getBody(), true);
+        $this->assertJson($data);
+    }
 }
 

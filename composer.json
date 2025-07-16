@@ -17,7 +17,9 @@
         }
     },
     "scripts": {
-        "tests": "vendor/bin/phpunit"
+        "tests": "vendor/bin/phpunit --testdox --colors=always",
+        "coverage": "vendor/bin/phpunit --coverage-html html-coverage",
+        "precoverage": "rm -rf html-coverage"
     }
     ,
     "authors": [

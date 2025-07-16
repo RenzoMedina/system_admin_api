@@ -1,2 +1,8 @@
 .env
 /vendor/
+composer.phar
+php.ini
+
+# Generated files
+.phpunit.result.cache
+.phpunit.cache

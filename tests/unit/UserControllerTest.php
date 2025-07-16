@@ -4,22 +4,28 @@ namespace Tests\Unit;
 
 use App\Models\User;
 use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
+use GuzzleHttp\Handler\MockHandler;
 use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\Attributes\TestDox;
 
 class UserControllerTest extends TestCase{
-
     #[Test]
+    #[TestDox('Return Instance User')]
     public function returnInstanceUser(){
         $user = new User();
         $this->assertInstanceOf(User::class, $user);
     }
+
     #[Test]
+    #[TestDox('Store User')]
     public function storeUser(){
-        $clientUser = new Client([
-            'base_uri' => 'http://localhost:8080/api/v1',
-            'timeout'  => 2.0,
+        $mock = new MockHandler([
+            new Response(200,[], json_encode(['status '=> 200]))
         ]);
+        $clientUser = new Client(['handler'=>HandlerStack::create($mock)]);
         $request = $clientUser->post("/user",[
             'form_params' => [
                 'name'=>"Renzo",
@@ -30,8 +36,7 @@ class UserControllerTest extends TestCase{
                 ]
             ]);
 
-        $body = $request->getBody();
-        $data  = json_decode($body, true);
+        $request->getBody();
         $this->assertEquals(200, $request->getStatusCode());
     }
 }

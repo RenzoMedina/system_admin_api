@@ -21,4 +21,11 @@
             <directory>app</directory>
         </include>
     </source>
+    <coverage>
+        <report>
+            <cobertura outputFile="report/cobertura.xml"/>
+            <html outputDirectory="html-coverage" lowUpperBound="50" highLowerBound="90"/>
+            <text outputFile="report/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
+        </report>
+    </coverage>
 </phpunit>

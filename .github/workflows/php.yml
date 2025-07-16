@@ -56,7 +56,7 @@ jobs:
           ID=$(echo "$COMMIT_MSG" | grep -o 'AB#[0-9]*' | grep -o '[0-9]*' || true)
           echo "WORK_ITEM_ID=$ID" >> $GITHUB_ENV
           echo "Detectado WORK_ITEM_ID=$ID"
-
+    
     #Azure DevOps
     - name: Actualizar Azure Board
       if: env.WORK_ITEM_ID != ''
@@ -70,3 +70,14 @@ jobs:
           --header "Content-Type: application/json-patch+json" \
           --user :$AZDO_PAT \
           --data '[{ "op": "add", "path": "/fields/System.State", "value": "Done" }]'
+    
+    #Run coverage
+    - name: Run coverage
+      run: php -d xdebug.mode=coverage vendor/bin/phpunit --coverage-html html-coverage
+    
+    #Upload coverage report
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+          name: php-report
+          path: html-coverage/

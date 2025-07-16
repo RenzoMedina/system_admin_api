@@ -17,7 +17,9 @@
         }
     },
     "scripts": {
-        "tests": "vendor/bin/phpunit"
+        "tests": "vendor/bin/phpunit --testdox --colors=always",
+        "coverage": "vendor/bin/phpunit --coverage-html html-coverage",
+        "precoverage": "rm -rf html-coverage"
     }
     ,
     "authors": [
@@ -31,7 +33,8 @@
         "flightphp/core": "dev-master",
         "vlucas/phpdotenv": "^5.6@dev",
         "firebase/php-jwt": "dev-main",
-        "catfan/medoo": "dev-master"
+        "catfan/medoo": "dev-master",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^12.3@dev"

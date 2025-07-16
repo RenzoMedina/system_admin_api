@@ -1,5 +1,5 @@
 # Usa una imagen base de PHP
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
@@ -21,12 +21,14 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Instala Xdebug
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug  
+
 # Copia los archivos del proyecto al directorio de trabajo
 COPY . .
 
-# Copiar archivo .env si es necesario
-#COPY .env .env
-
+COPY php.ini /usr/local/etc/php/php.ini
 # Establece los permisos de archivos y directorios
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html

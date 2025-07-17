@@ -6,3 +6,7 @@ php.ini
 # Generated files
 .phpunit.result.cache
 .phpunit.cache
+
+#Report Coverage
+/html-coverage/
+/report/

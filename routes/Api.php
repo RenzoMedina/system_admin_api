@@ -41,7 +41,12 @@ Flight::group("/api", function(){
          * ? group route of service patient
          * * With TokenMiddleware is all route read, write,update
          */
-        Flight::post("/patient/@id/contact",[PatientController::class, 'storeContact'])->addMiddleware([new TokenMiddleware()]);
+        Flight::group("/patient/@id", function(){
+            Flight::post("/contact",[PatientController::class, 'storeContact']);
+            Flight::post("/details-clinical",[PatientController::class, 'storeDetailsClinical']);
+            Flight::put("/contact/@contact_id",[PatientController::class, 'updateContact']);
+            Flight::put("/details-clinical/@details_id",[PatientController::class, 'updateDetailClinical']);
+        },[new TokenMiddleware()]);
     });
 });
 

@@ -32,7 +32,11 @@ class PatientController{
             "message"=>"Data load succesfully!!!",
             "data"=>$data
         ]);
-    }
+    }  
+    /**
+     * ? update data of patient
+     * @param int $id
+     */
     public static function update($id){
         $data = Flight::request()->data;
         $success = (new Patient())->update($id,$data);
@@ -51,7 +55,10 @@ class PatientController{
 /*     public static function destroy($di){
 
     } */
-
+    /**
+     * ? store contact of patient
+     * @param int $idPatient
+     */
     public function storeContact($idPatient){
         $data = Flight::request()->data;
        (new PatientService())->contactOfPatient($idPatient,$data);
@@ -61,5 +68,47 @@ class PatientController{
             "data"=>$data,
             "id"=>$idPatient
         ]);
+    }
+    public static function updateContact($idPatient, $idContact){
+        $data = Flight::request()->data;
+        $success = (new PatientService())->updateContactOfPatient($idPatient, $idContact,$data);
+        if ($success){
+            Flight::json([
+                "status"=>200,
+                "message"=>"Data updated by {$idContact}",
+                "data"=>$data
+            ]);
+        }else{
+            Flight::jsonHalt([
+                "error"=>"Data update has not been carried out validate id"
+            ], 409);
+        } 
+    }
+
+    public function storeDetailsClinical($idPatient){
+        $data = Flight::request()->data;
+       (new PatientService())->detailsClinicalOfPatient($idPatient,$data);
+        Flight::json([
+            "status"=>201,
+            "message"=>"Data load succesfully!!!",
+            "data"=>$data,
+            "id"=>$idPatient
+        ]);
+    }
+
+    public static function updateDetailClinical($idPatient, $idContact){
+        $data = Flight::request()->data;
+        $success = (new PatientService())->updateDetailsClinicalOfPatient($idPatient,$idContact,$data);
+        if ($success){
+            Flight::json([
+                "status"=>200,
+                "message"=>"Data updated by {$idContact}",
+                "data"=>$data
+            ]);
+        }else{
+            Flight::jsonHalt([
+                "error"=>"Data update has not been carried out validate id"
+            ], 409);
+        } 
     }
 }

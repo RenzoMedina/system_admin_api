@@ -3,12 +3,13 @@
 namespace App\Controllers;
 
 use App\Models\Patient;
+use App\Services\PatientService;
 use Flight;
-use function PHPUnit\Framework\isJson;
 
 class PatientController{
     
     public static function index(){
+       
         Flight::json([
             "status"=>200,
             "data"=>(new Patient())->getAll()
@@ -47,7 +48,18 @@ class PatientController{
             ], 409);
         } 
     }
-    public static function destroy($di){
+/*     public static function destroy($di){
 
+    } */
+
+    public function storeContact($idPatient){
+        $data = Flight::request()->data;
+       (new PatientService())->contactOfPatient($idPatient,$data);
+        Flight::json([
+            "status"=>201,
+            "message"=>"Data load succesfully!!!",
+            "data"=>$data,
+            "id"=>$idPatient
+        ]);
     }
 }

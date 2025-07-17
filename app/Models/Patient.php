@@ -5,13 +5,26 @@ namespace App\Models;
 use Core\Model;
 use Exception;
 use Flight;
+use PDO;
 
 class Patient extends Model{
     
     private $table = "table_patients";
     public function getAll(){
         try{
-            return $this->db->select($this->table,'*');
+            $patients = $this->db->select($this->table, '*');
+            $result = [];
+            foreach ($patients as $patient) {
+                $contacts = $this->db->select("table_contacts_patients", '*', [
+                    "id_patient" => $patient['id']
+                ]);
+                $result[] = [
+                    "patient" => $patient,
+                    "contacts" => $contacts
+                ];
+            }
+        return $result;
+        
         }catch(Exception $e){
             Flight::jsonHalt([
                 "error"=>$e->getMessage()

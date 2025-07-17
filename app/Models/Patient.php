@@ -2,28 +2,42 @@
 
 namespace App\Models;
 
-use Core\Model;
-use Exception;
 use Flight;
-use PDO;
+use Exception;
+use Core\Model;
+use App\Utils\Pagination;
 
 class Patient extends Model{
     
+    /**
+     * Summary of table
+     * @var string
+     */
     private $table = "table_patients";
     public function getAll(){
         try{
             $patients = $this->db->select($this->table, '*');
+            $pagination = Pagination::paginate($this->db, $this->table);
+            $patients = $pagination['data'];
+
             $result = [];
             foreach ($patients as $patient) {
                 $contacts = $this->db->select("table_contacts_patients", '*', [
                     "id_patient" => $patient['id']
                 ]);
+                $detailsClinical = $this->db->select("table_details_medicals", '*', [
+                    "id_patient" => $patient['id']
+                ]);
                 $result[] = [
                     "patient" => $patient,
-                    "contacts" => $contacts
+                    "contacts" => $contacts,
+                    "detailsClinical" => $detailsClinical
                 ];
             }
-        return $result;
+            return [
+                "data" => $result,
+                "pagination" => $pagination['pagination']
+            ];
         
         }catch(Exception $e){
             Flight::jsonHalt([
@@ -31,6 +45,11 @@ class Patient extends Model{
             ],401);
         }
     }
+    /**
+     * Summary of create
+     * @param mixed $data
+     * @return void
+     */
     public function create($data){
         try {
             $this->db->insert($this->table,[
@@ -48,6 +67,11 @@ class Patient extends Model{
         }
     }
 
+    /**
+     * Summary of getById
+     * @param int $id
+     * @return array|null
+     */
     public function getById(int $id){
         try {
             return $this->db->get($this->table,'*',[

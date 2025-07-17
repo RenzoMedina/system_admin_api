@@ -17,6 +17,7 @@ Modular API for administrative resource management, developed in PHP with focus 
 | PHP | Backend logic |
 | PHP | Micro-framework for RESTful APIs |
 | Medoo | Lightweight ORM for PHP database management |
+| Guzzle | PHP HTTP client that makes it easy to send HTTP requests and trivial to integrate with web services |
 | Docker  | Containerization and deployment |
 | MySQL | Data persistence |
 | GitHub Actions | Automated CI/CD |
@@ -61,14 +62,23 @@ DBPASS=you user
 composer run-script tests
 ```
 ## 📚 Main Endpoint
+route v1 "/api/v1"
+| Method| Endpoint                                  | Description                                   |
+|-------|-------------------------------------------|-----------------------------------------------|
+| GET   | /users                                    | List all registered users                     |
+| GET   | /user/@id                                 | Get user data by ID                           |
+| POST  | /user                                     | Create a new user                             |
+| PUT   | /user/@id                                 | Update user data                              |
+| GET   | /role                                     | List all registered rol                       |
+| POST  | /role                                     | Create a new rol                              |
+| PUT   | /role/@id                                 | Update rol data                               |
+| GET   | /patient                                  | List all registered patient                   |
+| GET   | /patient@id                               | Get patient data by ID                        |
+| POST  | /patient/@id/contact                      | Create a new contact by id patient            |
+| PUT   | /patient/@id/contact/@contact_id          | Update user contact by id patient             |
+| POST  | /patient/@id/details-clinical             | Create a new details clinical by patient      |
+| PUT   | /patient/@id/details-clinical/@details_id | Update user details clinical by id patient    |
 
-| Method| Endpoint | Description |
-|-----------|-----------|-----------|
-| GET   | /api/users   | List all registered users   |
-| GET   | /api/user/{id} | Get user data by ID   |
-| POST   | /api/user   | Create a new user   |
-| PUT   | /api/user/{id}   | LUpdate user data   |
-| DELETE   | /api/user/{id}  | Remove a user by ID   |
 
 ## 👨‍💻 Autor
 
